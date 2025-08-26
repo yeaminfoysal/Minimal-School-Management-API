@@ -1,2 +1,5 @@
 node_modules
 dist
+.env
+src/app/modules/class
+src/app/modules/student
