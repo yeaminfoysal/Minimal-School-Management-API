@@ -6,6 +6,5 @@ export interface IStudent {
     _id?: string,
     name: string,
     age: number,
-    email: string,
     class_id: Types.ObjectId[]
 }

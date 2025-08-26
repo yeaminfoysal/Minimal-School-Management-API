@@ -6,7 +6,7 @@ export const ClassRoutes = Router()
 
 ClassRoutes.post(
     "/",
-    checkAuth("ADMIN", "TEACHER"),
+    checkAuth("ADMIN"),
     ClassController.createClass
 )
 

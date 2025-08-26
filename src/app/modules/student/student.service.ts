@@ -1,18 +1,31 @@
 import AppError from "../../errorHelpers/AppError";
+import { Class } from "../class/class.model";
 import { IStudent } from "./student.interface"
 import { Student } from "./student.model"
 
 const createStudent = async (payload: Partial<IStudent>) => {
-    const email = payload.email;
-    const isExistStudent = await Student.findOne({ email })
+    const classId = payload?.class_id;
 
-    if (isExistStudent) {
-        throw new AppError(401, "Student already exists with this email.")
+    let classDoc = null;
+    if (classId) {
+        classDoc = await Class.findById(classId);
+        if (!classDoc) {
+            throw new AppError(404, "Class not found.");
+        }
     }
 
-    const student = Student.create(payload)
-    return student
-}
+    const student = await Student.create(payload);
+
+    if (classId && classDoc) {
+        await Class.findByIdAndUpdate(
+            classId,
+            { $addToSet: { students: student._id } },
+            { new: true }
+        );
+    }
+
+    return student;
+};
 
 const getStudentByID = async (id: string) => {
     const student = await Student.findById(id);

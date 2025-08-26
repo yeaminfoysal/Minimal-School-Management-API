@@ -13,28 +13,10 @@ const studentSchema = new Schema<IStudent>(
             required: true,
             min: 3,
         },
-        email: {
-            type: String,
-            required: true
-        },
         class_id: {
             type: [Schema.Types.ObjectId],
             ref: "Class",
             required: true,
-            validate: [
-                {
-                    validator: function (v: unknown) {
-                        return Array.isArray(v);
-                    },
-                    message: "class_id must be an array",
-                },
-                {
-                    validator: function (v: Schema.Types.ObjectId[]) {
-                        return v.length > 0;
-                    },
-                    message: "A student must be assigned to at least one class",
-                },
-            ],
         },
     },
     {

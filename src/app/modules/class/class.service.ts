@@ -30,11 +30,12 @@ const enrollClass = async (classId: string, studentId: string) => {
 }
 
 const getStudentsOfClass = async (classId: string) => {
-    const students = await Class.findById(classId).populate("students")
-    
+    const students = await Class.findById(classId).populate("students").select("students")
+
     if (!students) {
-        throw new AppError(404, "Something went wrong.")
+        throw new AppError(404, "Class not found.")
     }
     return students
 }
+
 export const ClassServices = { enrollClass, getStudentsOfClass }

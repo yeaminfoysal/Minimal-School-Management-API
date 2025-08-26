@@ -34,7 +34,7 @@ const getStudentsOfClass = async (req: Request, res: Response, next: NextFunctio
     try {
         const students = await ClassServices.getStudentsOfClass(req.params.id);
 
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             message: "Students retrieved successfully of a class",
             data: students
