@@ -5,20 +5,20 @@ import { JwtPayload } from "jsonwebtoken";
 import { User } from "../modules/user/user.model";
 
 declare global {
-  namespace Express {
-    interface Request {
-      user?: JwtPayload;
+    namespace Express {
+        interface Request {
+            user?: JwtPayload;
+        }
     }
-  }
 }
 
 export const checkAuth = (...authRoles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
     try {
         const accessToken = req.headers.authorization;
         if (!accessToken) {
-            throw new AppError(403, "No access thoken");
+            throw new AppError(403, "No access thoken. Please provide access token on headers authorization.");
         }
-        
+
         const verifiedToken = verifyToken(accessToken, process.env.JWT_ACCESS_SECRET as string) as JwtPayload
 
         const isUserExist = await User.findOne({ email: verifiedToken.email });
